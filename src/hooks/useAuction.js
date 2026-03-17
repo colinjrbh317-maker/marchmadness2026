@@ -1,16 +1,13 @@
 import { useCallback } from "react";
 import { TEAMS } from "../data/teams";
 
-const REGION_ORDER = ["East", "South", "West", "Midwest"];
-
 export function useAuction(gameState, updateState) {
   const getCurrentTeam = useCallback(() => {
-    if (gameState.seedOrder.length === 0) return null;
-    const seed = gameState.seedOrder[gameState.currentSeedIndex];
-    const region = REGION_ORDER[gameState.currentRegionIndex];
-    if (!seed || !region) return null;
-    return TEAMS.find((t) => t.seed === seed && t.region === region) || null;
-  }, [gameState.seedOrder, gameState.currentSeedIndex, gameState.currentRegionIndex]);
+    if (gameState.teamOrder.length === 0) return null;
+    const teamId = gameState.teamOrder[gameState.currentTeamIndex];
+    if (!teamId) return null;
+    return TEAMS.find((t) => t.id === teamId) || null;
+  }, [gameState.teamOrder, gameState.currentTeamIndex]);
 
   const selectBidder = useCallback((playerId) => {
     updateState({ currentBidder: playerId });
@@ -21,22 +18,22 @@ export function useAuction(gameState, updateState) {
   }, [updateState]);
 
   const getMaxBid = useCallback((playerId) => {
-    const budget = gameState.budgets[playerId] || 0;
-    // Count unsold teams remaining (not owned by anyone)
-    const totalUnsold = TEAMS.filter((t) => !gameState.ownership[t.id]).length;
-    // Player must reserve $1 for each remaining team after this one
-    // But only if there are teams left that SOMEONE needs to buy
-    // Simple: max bid = budget - (0) since other players can buy remaining teams
-    // Actually the rule is: player can't bid so much that they can't afford $1 min on future teams
-    // But since OTHER players can buy, the only constraint is budget >= bid amount
-    return budget;
-  }, [gameState.budgets, gameState.ownership]);
+    return gameState.budgets[playerId] || 0;
+  }, [gameState.budgets]);
 
   const isValidBid = useCallback((playerId, amount) => {
     if (!playerId || !amount || amount < 1) return false;
     const budget = gameState.budgets[playerId] || 0;
     return amount <= budget;
   }, [gameState.budgets]);
+
+  const advanceTeam = (currentIndex) => {
+    const nextIndex = currentIndex + 1;
+    if (nextIndex >= gameState.teamOrder.length) {
+      return { currentTeamIndex: nextIndex, auctionPhase: "complete" };
+    }
+    return { currentTeamIndex: nextIndex, auctionPhase: "bidding" };
+  };
 
   const confirmSale = useCallback(() => {
     const team = getCurrentTeam();
@@ -47,28 +44,14 @@ export function useAuction(gameState, updateState) {
     const playerId = gameState.currentBidder;
     const amount = gameState.currentBid;
 
-    // Save undo info
     const lastSale = {
       teamId,
       playerId,
       amount,
-      prevSeedIndex: gameState.currentSeedIndex,
-      prevRegionIndex: gameState.currentRegionIndex,
+      prevTeamIndex: gameState.currentTeamIndex,
     };
 
-    // Calculate next position
-    let nextSeedIndex = gameState.currentSeedIndex;
-    let nextRegionIndex = gameState.currentRegionIndex;
-    let nextPhase = "bidding";
-
-    if (nextRegionIndex < 3) {
-      nextRegionIndex++;
-    } else if (nextSeedIndex < 15) {
-      nextSeedIndex++;
-      nextRegionIndex = 0;
-    } else {
-      nextPhase = "complete";
-    }
+    const next = advanceTeam(gameState.currentTeamIndex);
 
     updateState({
       ownership: { ...gameState.ownership, [teamId]: playerId },
@@ -77,11 +60,10 @@ export function useAuction(gameState, updateState) {
         ...gameState.budgets,
         [playerId]: gameState.budgets[playerId] - amount,
       },
-      currentSeedIndex: nextSeedIndex,
-      currentRegionIndex: nextRegionIndex,
+      currentTeamIndex: next.currentTeamIndex,
       currentBid: 0,
       currentBidder: null,
-      auctionPhase: nextPhase,
+      auctionPhase: next.auctionPhase,
       lastSale,
     });
   }, [gameState, getCurrentTeam, isValidBid, updateState]);
@@ -90,11 +72,9 @@ export function useAuction(gameState, updateState) {
     const team = getCurrentTeam();
     if (!team) return;
 
-    // Find players who can afford $1
     const eligible = gameState.players.filter((p) => gameState.budgets[p.id] >= 1);
     if (eligible.length === 0) return;
 
-    // Pick a random eligible player
     const player = eligible[Math.floor(Math.random() * eligible.length)];
     const teamId = team.id;
 
@@ -102,22 +82,10 @@ export function useAuction(gameState, updateState) {
       teamId,
       playerId: player.id,
       amount: 1,
-      prevSeedIndex: gameState.currentSeedIndex,
-      prevRegionIndex: gameState.currentRegionIndex,
+      prevTeamIndex: gameState.currentTeamIndex,
     };
 
-    let nextSeedIndex = gameState.currentSeedIndex;
-    let nextRegionIndex = gameState.currentRegionIndex;
-    let nextPhase = "bidding";
-
-    if (nextRegionIndex < 3) {
-      nextRegionIndex++;
-    } else if (nextSeedIndex < 15) {
-      nextSeedIndex++;
-      nextRegionIndex = 0;
-    } else {
-      nextPhase = "complete";
-    }
+    const next = advanceTeam(gameState.currentTeamIndex);
 
     updateState({
       ownership: { ...gameState.ownership, [teamId]: player.id },
@@ -126,31 +94,27 @@ export function useAuction(gameState, updateState) {
         ...gameState.budgets,
         [player.id]: gameState.budgets[player.id] - 1,
       },
-      currentSeedIndex: nextSeedIndex,
-      currentRegionIndex: nextRegionIndex,
+      currentTeamIndex: next.currentTeamIndex,
       currentBid: 0,
       currentBidder: null,
-      auctionPhase: nextPhase,
+      auctionPhase: next.auctionPhase,
       lastSale,
     });
   }, [gameState, getCurrentTeam, updateState]);
 
-  const skipSeed = useCallback(() => {
-    // Only allow skip if we haven't sold any teams from this seed yet
-    if (gameState.currentRegionIndex !== 0) return;
-    if (gameState.seedOrder.length === 0) return;
+  const skipTeam = useCallback(() => {
+    if (gameState.teamOrder.length === 0) return;
 
-    const newOrder = [...gameState.seedOrder];
-    const [skipped] = newOrder.splice(gameState.currentSeedIndex, 1);
+    const newOrder = [...gameState.teamOrder];
+    const [skipped] = newOrder.splice(gameState.currentTeamIndex, 1);
     newOrder.push(skipped);
 
     updateState({
-      seedOrder: newOrder,
-      currentRegionIndex: 0,
+      teamOrder: newOrder,
       currentBid: 0,
       currentBidder: null,
     });
-  }, [gameState.seedOrder, gameState.currentSeedIndex, gameState.currentRegionIndex, updateState]);
+  }, [gameState.teamOrder, gameState.currentTeamIndex, updateState]);
 
   const undoLastSale = useCallback(() => {
     const sale = gameState.lastSale;
@@ -169,8 +133,7 @@ export function useAuction(gameState, updateState) {
         ...gameState.budgets,
         [sale.playerId]: gameState.budgets[sale.playerId] + sale.amount,
       },
-      currentSeedIndex: sale.prevSeedIndex,
-      currentRegionIndex: sale.prevRegionIndex,
+      currentTeamIndex: sale.prevTeamIndex,
       currentBid: 0,
       currentBidder: null,
       auctionPhase: "bidding",
@@ -186,7 +149,7 @@ export function useAuction(gameState, updateState) {
     isValidBid,
     confirmSale,
     undoLastSale,
-    skipSeed,
+    skipTeam,
     quickSale,
   };
 }

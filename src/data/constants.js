@@ -91,9 +91,8 @@ export function createInitialState() {
 
     players: PLAYERS.map(p => ({ ...p })),
 
-    seedOrder: [],
-    currentSeedIndex: 0,
-    currentRegionIndex: 0,
+    teamOrder: [],
+    currentTeamIndex: 0,
     auctionPhase: "pre",
     currentBid: 0,
     currentBidder: null,

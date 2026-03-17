@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { REGIONS } from "../data/teams";
+import { REGIONS, TEAMS } from "../data/teams";
 import { getTeamsByRegion } from "../data/teams";
 import { SEED_COLORS, shuffleArray } from "../data/constants";
 import { cn } from "../lib/utils";
@@ -12,7 +12,6 @@ import TeamLogo from "./TeamLogo";
 export default function Setup({ gameState, updateState }) {
   const [editingPlayer, setEditingPlayer] = useState(null);
   const [editingTeam, setEditingTeam] = useState(null);
-  const [hideDrawOrder, setHideDrawOrder] = useState(true);
 
   const handlePlayerNameChange = (playerId, newName) => {
     const players = gameState.players.map((p) =>
@@ -31,12 +30,11 @@ export default function Setup({ gameState, updateState }) {
   };
 
   const handleBegin = () => {
-    const seeds = Array.from({ length: 16 }, (_, i) => i + 1);
-    const seedOrder = shuffleArray(seeds);
+    const teamIds = TEAMS.map((t) => t.id);
+    const teamOrder = shuffleArray(teamIds);
     updateState({
-      seedOrder,
-      currentSeedIndex: 0,
-      currentRegionIndex: 0,
+      teamOrder,
+      currentTeamIndex: 0,
       auctionPhase: "bidding",
       screen: "auction",
     });
@@ -89,17 +87,6 @@ export default function Setup({ gameState, updateState }) {
         </div>
 
         <div className="flex items-center gap-3 flex-shrink-0">
-          <button
-            onClick={() => setHideDrawOrder(!hideDrawOrder)}
-            className={cn(
-              "px-3 py-2 rounded border text-xs font-body cursor-pointer transition-all",
-              hideDrawOrder
-                ? "bg-gray-50 border-border text-gray-500"
-                : "bg-red-700/10 border-red-700/50 text-red-700"
-            )}
-          >
-            {hideDrawOrder ? "Hide Seed Order" : "Show Seed Order"}
-          </button>
           <ShimmerButton
             onClick={handleBegin}
             shimmerColor="#d44427"
@@ -107,7 +94,7 @@ export default function Setup({ gameState, updateState }) {
             borderRadius="6px"
             className="px-5 py-2 font-display text-lg tracking-wider text-white flex-shrink-0"
           >
-            DRAW SEEDS AND BEGIN
+            SHUFFLE AND BEGIN
           </ShimmerButton>
         </div>
       </div>
@@ -119,8 +106,7 @@ export default function Setup({ gameState, updateState }) {
             <div className="flex gap-6">
               <span>$200 per player</span>
               <span>64 teams auctioned</span>
-              <span>Random seed order</span>
-              <span>4 teams/seed</span>
+              <span>Random team order</span>
               <span>Min bid: $1</span>
             </div>
             <div className="flex gap-4 ml-auto text-gray-400">

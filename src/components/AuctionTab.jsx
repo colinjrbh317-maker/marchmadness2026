@@ -1,17 +1,15 @@
-import { useState, useMemo, useEffect, useRef } from "react";
-import { TEAMS, getR64Opponent, getTeamsBySeed } from "../data/teams";
+import { useState, useMemo } from "react";
+import { TEAMS, getR64Opponent } from "../data/teams";
 import { SEED_COLORS, PLAYER_COLORS } from "../data/constants";
 import TeamLogo from "./TeamLogo";
 import { cn } from "../lib/utils";
 import { Card, CardContent } from "@/components/ui/card";
 import { BorderBeam } from "@/components/ui/border-beam";
 import { PulsatingButton } from "@/components/ui/pulsating-button";
-import { AnimatedShinyText } from "@/components/ui/animated-shiny-text";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 
 const BID_AMOUNTS = [1, 5, 10, 20, 50, 100];
-const REGION_ORDER = ["East", "South", "West", "Midwest"];
 
 export default function AuctionTab({
   gameState,
@@ -20,22 +18,8 @@ export default function AuctionTab({
   auction,
   sounds,
 }) {
-  const [showDrawOrder, setShowDrawOrder] = useState(false);
-  const prevSeedRef = useRef(null);
-  const { selectBidder, setBidAmount, confirmSale, undoLastSale, skipSeed, quickSale, isValidBid, getMaxBid } = auction;
-
-  // Seed reveal animation trigger
-  const currentSeed = gameState.seedOrder[gameState.currentSeedIndex];
-  useEffect(() => {
-    if (currentSeed && currentSeed !== prevSeedRef.current) {
-      prevSeedRef.current = currentSeed;
-      if (currentSeed <= 2) {
-        sounds.playDrumRoll();
-      } else {
-        sounds.playWhoosh();
-      }
-    }
-  }, [currentSeed, sounds]);
+  const [showUpcoming, setShowUpcoming] = useState(false);
+  const { selectBidder, setBidAmount, confirmSale, undoLastSale, skipTeam, quickSale, isValidBid, getMaxBid } = auction;
 
   // Matchup: R64 opponent
   const opponent = useMemo(() => {
@@ -43,25 +27,17 @@ export default function AuctionTab({
     return getR64Opponent(currentTeam);
   }, [currentTeam]);
 
-  // Seed sidebar data
-  const sidebarSeeds = useMemo(() => {
-    return gameState.seedOrder.map((seed, idx) => {
-      const teams = getTeamsBySeed(seed);
-      const soldCount = teams.filter((t) => gameState.ownership[t.id]).length;
-      return { seed, index: idx, teams, soldCount };
-    });
-  }, [gameState.seedOrder, gameState.ownership]);
+  // Progress
+  const sold = Object.keys(gameState.ownership).length;
+  const total = gameState.teamOrder.length || 64;
 
-  // Expanded seed matchups
-  const expandedMatchups = useMemo(() => {
-    if (!currentSeed) return [];
-    const oppSeed = 17 - currentSeed;
-    return REGION_ORDER.map((region) => {
-      const team = TEAMS.find((t) => t.seed === currentSeed && t.region === region);
-      const opp = TEAMS.find((t) => t.seed === oppSeed && t.region === region);
-      return { region, team, opp };
-    });
-  }, [currentSeed]);
+  // Upcoming teams
+  const upcomingTeams = useMemo(() => {
+    return gameState.teamOrder
+      .slice(gameState.currentTeamIndex + 1, gameState.currentTeamIndex + 11)
+      .map((id) => TEAMS.find((t) => t.id === id))
+      .filter(Boolean);
+  }, [gameState.teamOrder, gameState.currentTeamIndex]);
 
   if (!currentTeam || gameState.auctionPhase !== "bidding") {
     return (
@@ -80,22 +56,10 @@ export default function AuctionTab({
     <div className="flex gap-4">
       {/* Main auction area */}
       <div className="flex-1 space-y-4">
-        {/* Seed reveal */}
+        {/* Progress counter */}
         <div className="text-center">
-          <div
-            key={currentSeed}
-            className="inline-block animate-[seed-reveal_0.4s_ease-out]"
-          >
-            <AnimatedShinyText
-              className="text-8xl font-display animate-[glow-pulse_2s_ease-in-out_infinite]"
-              shimmerWidth={200}
-              style={{ color: SEED_COLORS[currentSeed] }}
-            >
-              {currentSeed}
-            </AnimatedShinyText>
-          </div>
           <div className="text-sm text-gray-500 font-body">
-            SEED {currentSeed} -- {gameState.currentRegionIndex + 1} of 4
+            TEAM {sold + 1} OF {total}
           </div>
         </div>
 
@@ -226,7 +190,7 @@ export default function AuctionTab({
           </div>
         </div>
 
-        {/* Confirm + Undo */}
+        {/* Confirm + Undo + Quick Sale + Skip */}
         <div className="flex gap-3">
           {canConfirm ? (
             <PulsatingButton
@@ -268,17 +232,15 @@ export default function AuctionTab({
           >
             $1 RANDOM
           </button>
-          {gameState.currentRegionIndex === 0 && (
-            <button
-              onClick={() => {
-                skipSeed();
-                sounds.playWhoosh();
-              }}
-              className="px-4 py-3 rounded font-body text-sm border border-border text-gray-900 hover:border-amber-600 hover:text-amber-700 transition-all cursor-pointer"
-            >
-              SKIP SEED
-            </button>
-          )}
+          <button
+            onClick={() => {
+              skipTeam();
+              sounds.playWhoosh();
+            }}
+            className="px-4 py-3 rounded font-body text-sm border border-border text-gray-900 hover:border-amber-600 hover:text-amber-700 transition-all cursor-pointer"
+          >
+            SKIP
+          </button>
         </div>
 
         {/* Budget bars */}
@@ -306,59 +268,35 @@ export default function AuctionTab({
         </div>
       </div>
 
-      {/* Seed sidebar toggle + sidebar */}
+      {/* Upcoming sidebar */}
       <div className="flex-shrink-0 flex flex-col items-end">
         <button
-          onClick={() => setShowDrawOrder(!showDrawOrder)}
+          onClick={() => setShowUpcoming(!showUpcoming)}
           className="px-3 py-1 rounded border border-border text-xs font-body text-gray-500 cursor-pointer hover:border-red-700/50 transition-all mb-2"
         >
-          {showDrawOrder ? "Hide Order" : "Show Order"}
+          {showUpcoming ? "Hide Upcoming" : "Show Upcoming"}
         </button>
-        {showDrawOrder && (
-          <div className="w-48 space-y-1">
-            <h4 className="font-display text-sm text-gray-500 tracking-wide mb-2">DRAW ORDER</h4>
-            {sidebarSeeds.map(({ seed, index, soldCount }) => {
-              const isCurrent = index === gameState.currentSeedIndex;
-              const isDone = index < gameState.currentSeedIndex;
-              const isExpanded = isCurrent;
-              return (
-                <div key={seed}>
-                  <div
-                    className={cn(
-                      "flex items-center justify-between px-2 py-1 rounded text-xs font-body",
-                      isCurrent && "bg-gray-50 border border-red-700/50",
-                      isDone && "opacity-30"
-                    )}
-                  >
-                    <span
-                      className="font-bold"
-                      style={{ color: SEED_COLORS[seed] }}
-                    >
-                      SEED {seed}
-                    </span>
-                    <span className="text-gray-500">
-                      {isDone ? "4/4" : isCurrent ? `${soldCount}/4` : "0/4"}
-                    </span>
-                  </div>
-                  {isExpanded && (
-                    <div className="ml-2 mt-1 space-y-0.5 mb-2">
-                      {expandedMatchups.map(({ region, team, opp }) => (
-                        <div key={region} className="text-[10px] font-body text-gray-500 flex gap-1">
-                          <span className="text-gray-400 w-8">{region.slice(0, 1)}</span>
-                          <span className={cn(
-                            team && gameState.ownership[team.id] ? "line-through opacity-50" : "text-gray-900"
-                          )}>
-                            ({seed}) {team?.abbr || "?"}
-                          </span>
-                          <span className="text-gray-400">vs</span>
-                          <span>({17 - seed}) {opp?.abbr || "?"}</span>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
+        {showUpcoming && (
+          <div className="w-52 space-y-1">
+            <h4 className="font-display text-sm text-gray-500 tracking-wide mb-2">UP NEXT</h4>
+            {upcomingTeams.map((team, i) => (
+              <div
+                key={team.id}
+                className="flex items-center gap-2 px-2 py-1 rounded text-xs font-body"
+              >
+                <span className="text-gray-400 w-4">{i + 1}</span>
+                <Badge
+                  className="w-4 h-4 rounded-full flex items-center justify-center text-[8px] font-bold text-white p-0 flex-shrink-0"
+                  style={{ backgroundColor: SEED_COLORS[team.seed], borderColor: SEED_COLORS[team.seed] }}
+                >
+                  {team.seed}
+                </Badge>
+                <span className="text-gray-900 truncate">
+                  {gameState.teamNameOverrides[team.id] || team.name}
+                </span>
+                <span className="text-gray-400 ml-auto">{team.region.slice(0, 1)}</span>
+              </div>
+            ))}
           </div>
         )}
       </div>

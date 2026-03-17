@@ -33,13 +33,11 @@ function App() {
 
   // Current team being auctioned
   const currentTeam = useMemo(() => {
-    if (gameState.seedOrder.length === 0) return null;
-    const seed = gameState.seedOrder[gameState.currentSeedIndex];
-    const regions = ["East", "South", "West", "Midwest"];
-    const region = regions[gameState.currentRegionIndex];
-    if (!seed || !region) return null;
-    return TEAMS.find((t) => t.seed === seed && t.region === region) || null;
-  }, [gameState.seedOrder, gameState.currentSeedIndex, gameState.currentRegionIndex]);
+    if (!gameState.teamOrder || gameState.teamOrder.length === 0) return null;
+    const teamId = gameState.teamOrder[gameState.currentTeamIndex];
+    if (!teamId) return null;
+    return TEAMS.find((t) => t.id === teamId) || null;
+  }, [gameState.teamOrder, gameState.currentTeamIndex]);
 
   // Ticker messages
   const tickerMessages = useMemo(() => {
@@ -49,7 +47,7 @@ function App() {
     if (gameState.auctionPhase === "pre") {
       msgs.push("MARCH MADNESS AUCTION DRAFT 2026");
       msgs.push(`${64 - sold} teams available -- $200 per player`);
-      msgs.push("Seeds drawn randomly -- 4 teams per seed before next draw");
+      msgs.push("All 64 teams in random order");
     } else if (gameState.auctionPhase === "bidding") {
       if (sold > 0) {
         const lastTeamId = Object.keys(gameState.ownership)[sold - 1];
