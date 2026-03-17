@@ -5,7 +5,7 @@ import { cn } from "../lib/utils";
 
 const ROUNDS = [1, 2, 3, 4, 5, 6];
 
-export default function Tracker({ gameState, updateState, sounds, logos, liveScores }) {
+export default function Tracker({ gameState, updateState, sounds, liveScores }) {
   const handleToggleRound = (teamId, round) => {
     const current = gameState.roundResults[teamId] || 0;
     let newRound;
@@ -47,7 +47,7 @@ export default function Tracker({ gameState, updateState, sounds, logos, liveSco
           <button
             onClick={liveScores.syncScores}
             disabled={liveScores.syncing}
-            className="px-4 py-2 bg-surface border border-accent/30 rounded font-display text-sm text-accent tracking-wider hover:border-accent transition-all cursor-pointer disabled:opacity-50"
+            className="px-4 py-2 bg-gray-50 border border-red-700/30 rounded font-display text-sm text-red-700 tracking-wider hover:border-red-700 transition-all cursor-pointer disabled:opacity-50"
           >
             {liveScores.syncing ? "SYNCING..." : "SYNC SCORES"}
           </button>
@@ -55,25 +55,25 @@ export default function Tracker({ gameState, updateState, sounds, logos, liveSco
             <span className="text-xs font-body text-red-400">{liveScores.syncError}</span>
           )}
           {liveScores.syncResults && (
-            <div className="flex-1 bg-surface border border-accent/20 rounded p-3">
-              <div className="text-xs font-body text-text mb-2">
+            <div className="flex-1 bg-gray-50 border border-red-700/20 rounded p-3">
+              <div className="text-xs font-body text-gray-900 mb-2">
                 Found {liveScores.syncResults.games.length} results via {liveScores.syncResults.source}:
               </div>
               {liveScores.syncResults.games.map((g, i) => (
-                <div key={i} className="text-xs font-body text-text-muted">
+                <div key={i} className="text-xs font-body text-gray-500">
                   {g.winner.name} beat {g.loser.name} ({g.score})
                 </div>
               ))}
               <div className="flex gap-2 mt-2">
                 <button
                   onClick={liveScores.applySyncResults}
-                  className="px-3 py-1 bg-accent text-background text-xs font-body rounded cursor-pointer"
+                  className="px-3 py-1 bg-red-700 text-white text-xs font-body rounded cursor-pointer"
                 >
                   APPLY
                 </button>
                 <button
                   onClick={liveScores.dismissSync}
-                  className="px-3 py-1 border border-border text-text-muted text-xs font-body rounded cursor-pointer"
+                  className="px-3 py-1 border border-border text-gray-500 text-xs font-body rounded cursor-pointer"
                 >
                   DISMISS
                 </button>
@@ -85,7 +85,7 @@ export default function Tracker({ gameState, updateState, sounds, logos, liveSco
 
       {REGIONS.map((region) => (
         <div key={region}>
-          <h3 className="font-display text-lg text-accent tracking-wide mb-2">
+          <h3 className="font-display text-2xl text-red-700 tracking-wide mb-2">
             {region.toUpperCase()}
           </h3>
           <div className="space-y-0.5">
@@ -97,16 +97,16 @@ export default function Tracker({ gameState, updateState, sounds, logos, liveSco
               return (
                 <div
                   key={team.id}
-                  className="flex items-center gap-2 py-1 px-2 rounded bg-surface/50 text-xs font-body"
+                  className="flex items-center gap-2 py-1 px-2 rounded bg-gray-50/80 text-xs font-body"
                 >
-                  <TeamLogo team={team} logos={logos} ownership={gameState.ownership} size={16} />
+                  <TeamLogo team={team} ownership={gameState.ownership} size={16} />
                   <span
-                    className="w-4 h-4 rounded-full flex items-center justify-center text-[8px] font-bold text-background flex-shrink-0"
+                    className="w-4 h-4 rounded-full flex items-center justify-center text-[8px] font-bold text-white flex-shrink-0"
                     style={{ backgroundColor: SEED_COLORS[team.seed] }}
                   >
                     {team.seed}
                   </span>
-                  <span className="text-text w-32 truncate">{displayName}</span>
+                  <span className="text-gray-900 w-48 truncate text-sm font-semibold">{displayName}</span>
 
                   {/* Owner dot */}
                   {owner ? (
@@ -132,8 +132,8 @@ export default function Tracker({ gameState, updateState, sounds, logos, liveSco
                           className={cn(
                             "w-7 h-5 rounded text-[9px] font-bold transition-all cursor-pointer",
                             isActive
-                              ? "text-background"
-                              : "bg-background text-text-muted border border-border",
+                              ? "text-white"
+                              : "bg-white text-gray-500 border border-border",
                             !isOwned && "opacity-20 cursor-not-allowed"
                           )}
                           style={

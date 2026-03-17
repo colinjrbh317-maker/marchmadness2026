@@ -15,13 +15,12 @@ export default function Auction({
   currentTeam,
   auction,
   sounds,
-  logos,
   rosters,
   scores,
   liveScores,
 }) {
   return (
-    <div className="space-y-4 py-4">
+    <div className="space-y-2 py-1">
       {/* Tab bar */}
       <div className="flex gap-1 border-b border-border">
         {TABS.map((tab) => (
@@ -31,8 +30,8 @@ export default function Auction({
             className={cn(
               "px-4 py-2 font-display text-sm tracking-wider transition-colors cursor-pointer",
               gameState.auctionTab === tab.id
-                ? "text-accent border-b-2 border-accent"
-                : "text-text-muted hover:text-text"
+                ? "text-red-700 border-b-2 border-red-700"
+                : "text-gray-500 hover:text-gray-900"
             )}
           >
             {tab.label}
@@ -48,7 +47,6 @@ export default function Auction({
           currentTeam={currentTeam}
           auction={auction}
           sounds={sounds}
-          logos={logos}
         />
       )}
       {gameState.auctionTab === "rosters" && (
@@ -56,7 +54,6 @@ export default function Auction({
           gameState={gameState}
           rosters={rosters}
           scores={scores}
-          logos={logos}
         />
       )}
       {gameState.auctionTab === "tracker" && (
@@ -64,7 +61,6 @@ export default function Auction({
           gameState={gameState}
           updateState={updateState}
           sounds={sounds}
-          logos={logos}
           liveScores={liveScores}
         />
       )}

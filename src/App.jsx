@@ -5,14 +5,15 @@ import { loadSavedState, usePersistence } from "./hooks/usePersistence";
 import { useAuction } from "./hooks/useAuction";
 import { useScoring } from "./hooks/useScoring";
 import { useSoundEffects } from "./hooks/useSoundEffects";
-import { useLogos } from "./hooks/useLogos";
 import { useLiveScores } from "./hooks/useLiveScores";
 import NavBar from "./components/NavBar";
 import Setup from "./components/Setup";
 import Auction from "./components/Auction";
 import Bracket from "./components/Bracket";
 import Scoreboard from "./components/Scoreboard";
+import Predictions from "./components/Predictions";
 import Ticker from "./components/Ticker";
+import { usePredictions } from "./hooks/usePredictions";
 
 function App() {
   const [gameState, setGameState] = useState(() => {
@@ -27,8 +28,8 @@ function App() {
   const auction = useAuction(gameState, updateState);
   const { scores, rosters, standings } = useScoring(gameState);
   const sounds = useSoundEffects(gameState.muted);
-  const logos = useLogos();
   const liveScores = useLiveScores(gameState, updateState);
+  const predictionsData = usePredictions();
 
   // Current team being auctioned
   const currentTeam = useMemo(() => {
@@ -102,7 +103,6 @@ function App() {
             currentTeam={currentTeam}
             auction={auction}
             sounds={sounds}
-            logos={logos}
             rosters={rosters}
             scores={scores}
             liveScores={liveScores}
@@ -116,7 +116,16 @@ function App() {
             gameState={gameState}
             standings={standings}
             rosters={rosters}
-            logos={logos}
+          />
+        );
+      case "predictions":
+        return (
+          <Predictions
+            predictions={predictionsData.predictions}
+            valueBets={predictionsData.valueBets}
+            bonusPicks={predictionsData.bonusPicks}
+            loading={predictionsData.loading}
+            lastUpdated={predictionsData.lastUpdated}
           />
         );
       default:
@@ -125,7 +134,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-background pb-12">
+    <div className="min-h-screen flex flex-col bg-background pb-10">
       <NavBar
         screen={gameState.screen}
         onNavigate={(screen) => updateState({ screen })}
@@ -135,7 +144,7 @@ function App() {
         onImport={importState}
         auctionPhase={gameState.auctionPhase}
       />
-      <main className="flex-1 w-full mx-auto px-4 pt-16" style={{ maxWidth: gameState.screen === "bracket" ? "1200px" : "800px" }}>
+      <main className="flex-1 w-full mx-auto px-8" style={{ maxWidth: "100%", paddingTop: "48px" }}>
         {renderScreen()}
       </main>
       <Ticker messages={tickerMessages} />

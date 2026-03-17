@@ -1,30 +1,32 @@
+import { useState } from "react";
 import { SEED_COLORS, PLAYER_COLORS } from "../data/constants";
 
-export default function TeamLogo({ team, logos, ownership, size = 24 }) {
-  const url = logos?.[team.id];
+export default function TeamLogo({ team, ownership, size = 24 }) {
+  const [failed, setFailed] = useState(false);
   const owner = ownership?.[team.id];
   const bgColor = owner ? PLAYER_COLORS[owner] : SEED_COLORS[team.seed];
 
-  if (url) {
+  const logoUrl = team.espnId
+    ? `https://a.espncdn.com/i/teamlogos/ncaa/500/${team.espnId}.png`
+    : null;
+
+  if (logoUrl && !failed) {
     return (
       <img
-        src={url}
+        src={logoUrl}
         alt={team.abbr}
         width={size}
         height={size}
-        className="object-contain rounded"
+        className="object-contain flex-shrink-0"
         loading="lazy"
-        onError={(e) => {
-          e.target.style.display = "none";
-          e.target.nextSibling.style.display = "flex";
-        }}
+        onError={() => setFailed(true)}
       />
     );
   }
 
   return (
     <div
-      className="rounded-full flex items-center justify-center font-bold text-background flex-shrink-0"
+      className="rounded-full flex items-center justify-center font-bold text-white flex-shrink-0"
       style={{
         width: size,
         height: size,

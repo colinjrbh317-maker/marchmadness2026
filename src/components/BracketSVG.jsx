@@ -26,7 +26,7 @@ function BracketSlot({ x, y, team, gameState, onHover, isHighlighted }) {
   if (!team) {
     return (
       <rect x={x} y={y} width={SLOT_W} height={SLOT_H} rx={3}
-        fill="#0a0a0a" stroke="#1e1e1e" strokeWidth={0.5} />
+        fill="#f8f8f8" stroke="#d0d0d0" strokeWidth={0.5} />
     );
   }
 
@@ -43,8 +43,8 @@ function BracketSlot({ x, y, team, gameState, onHover, isHighlighted }) {
     >
       <rect
         x={x} y={y} width={SLOT_W} height={SLOT_H} rx={3}
-        fill={ownerColor ? ownerColor + "25" : "#0a0a0a"}
-        stroke={ownerColor || "#1e1e1e"}
+        fill={ownerColor ? ownerColor + "25" : "#f8f8f8"}
+        stroke={ownerColor || "#d0d0d0"}
         strokeWidth={ownerColor ? 1.5 : 0.5}
       />
       {/* Seed badge */}
@@ -55,15 +55,26 @@ function BracketSlot({ x, y, team, gameState, onHover, isHighlighted }) {
       <text
         x={x + 10} y={y + SLOT_H / 2 + 3.5}
         textAnchor="middle"
-        fontSize={8} fontWeight="bold" fill="#080808"
+        fontSize={8} fontWeight="bold" fill="#ffffff"
         fontFamily="'Courier New', monospace"
       >
         {team.seed}
       </text>
+      {/* Team logo */}
+      {team.espnId && (
+        <image
+          href={`https://a.espncdn.com/i/teamlogos/ncaa/500/${team.espnId}.png`}
+          x={x + 20}
+          y={y + 2}
+          width={16}
+          height={16}
+          preserveAspectRatio="xMidYMid meet"
+        />
+      )}
       {/* Team name */}
       <text
-        x={x + 22} y={y + SLOT_H / 2 + 3.5}
-        fontSize={9} fill="#e0d8cc"
+        x={x + 38} y={y + SLOT_H / 2 + 3.5}
+        fontSize={9} fill="#1a1a1a"
         fontFamily="'Courier New', monospace"
       >
         {displayName.slice(0, 12)}
@@ -114,7 +125,7 @@ export default function BracketSVG({ gameState }) {
       <svg
         viewBox={`0 0 ${SVG_W} ${SVG_H}`}
         className="w-full min-w-[900px]"
-        style={{ background: "#080808" }}
+        style={{ background: "#f8f8f8" }}
       >
         {/* Region labels */}
         {[
@@ -127,7 +138,7 @@ export default function BracketSVG({ gameState }) {
             key={region}
             x={x} y={y}
             fontSize={14} fontFamily="'Bebas Neue', sans-serif"
-            fill="#f97316" letterSpacing="2"
+            fill="#d44427" letterSpacing="2"
           >
             {region.toUpperCase()}
           </text>
@@ -139,7 +150,7 @@ export default function BracketSVG({ gameState }) {
             {allLines[region]?.map((d, i) => (
               <path
                 key={i} d={d}
-                fill="none" stroke="#1e1e1e" strokeWidth={1}
+                fill="none" stroke="#d0d0d0" strokeWidth={1}
               />
             ))}
           </g>
@@ -169,7 +180,7 @@ export default function BracketSVG({ gameState }) {
                     key={`${region}-r${roundIdx + 2}-${i}`}
                     x={pos.x} y={pos.y}
                     width={SLOT_W} height={SLOT_H} rx={3}
-                    fill="#0a0a0a" stroke="#1e1e1e" strokeWidth={0.5}
+                    fill="#f8f8f8" stroke="#d0d0d0" strokeWidth={0.5}
                   />
                 ))
               )}
@@ -182,7 +193,7 @@ export default function BracketSVG({ gameState }) {
           x={SVG_W / 2} y={SVG_H / 2 - 50}
           textAnchor="middle"
           fontSize={16} fontFamily="'Bebas Neue', sans-serif"
-          fill="#f97316" letterSpacing="3"
+          fill="#d44427" letterSpacing="3"
         >
           FINAL FOUR
         </text>
@@ -193,7 +204,7 @@ export default function BracketSVG({ gameState }) {
             key={`ff-${i}`}
             x={pos.x} y={pos.y}
             width={SLOT_W} height={SLOT_H} rx={3}
-            fill="#0a0a0a" stroke="#f97316" strokeWidth={0.5} opacity={0.3}
+            fill="#f8f8f8" stroke="#d44427" strokeWidth={0.5} opacity={0.3}
           />
         ))}
         {positions.semis.map((pos, i) => (
@@ -201,19 +212,19 @@ export default function BracketSVG({ gameState }) {
             key={`semi-${i}`}
             x={pos.x} y={pos.y}
             width={SLOT_W} height={SLOT_H} rx={3}
-            fill="#0a0a0a" stroke="#f97316" strokeWidth={0.5} opacity={0.3}
+            fill="#f8f8f8" stroke="#d44427" strokeWidth={0.5} opacity={0.3}
           />
         ))}
         <rect
           x={positions.champion.x} y={positions.champion.y}
           width={SLOT_W} height={SLOT_H} rx={3}
-          fill="#0a0a0a" stroke="#f97316" strokeWidth={1.5}
+          fill="#f8f8f8" stroke="#d44427" strokeWidth={1.5}
         />
         <text
           x={SVG_W / 2} y={positions.champion.y + SLOT_H + 16}
           textAnchor="middle"
           fontSize={10} fontFamily="'Bebas Neue', sans-serif"
-          fill="#f97316" letterSpacing="2"
+          fill="#d44427" letterSpacing="2"
         >
           CHAMPION
         </text>
@@ -221,9 +232,9 @@ export default function BracketSVG({ gameState }) {
 
       {/* Hover popover */}
       {popover && (
-        <div className="fixed bottom-14 left-1/2 -translate-x-1/2 bg-surface border border-border rounded px-3 py-2 text-xs font-body z-50 shadow-lg">
-          <div className="text-text font-bold">{popover.team.name}</div>
-          <div className="text-text-muted">
+        <div className="fixed bottom-14 left-1/2 -translate-x-1/2 bg-gray-50 border border-border rounded px-3 py-2 text-xs font-body z-50 shadow-lg">
+          <div className="text-gray-900 font-bold">{popover.team.name}</div>
+          <div className="text-gray-500">
             Owner: {popover.owner}
             {popover.price > 0 && ` -- $${popover.price}`}
           </div>
@@ -238,7 +249,7 @@ export default function BracketSVG({ gameState }) {
               className="w-3 h-3 rounded-full"
               style={{ backgroundColor: p.color }}
             />
-            <span className="text-text-muted">{p.name}</span>
+            <span className="text-gray-500">{p.name}</span>
           </div>
         ))}
       </div>

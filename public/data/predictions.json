@@ -1,0 +1,907 @@
+{
+  "generated_at": "2026-03-16T13:32:12.720207",
+  "model_version": "v1.0-synthetic-2026",
+  "total_games": 36,
+  "predictions": [
+    {
+      "round": "First Four",
+      "region": "South",
+      "team1": {
+        "name": "Prairie View A&M",
+        "seed": 16,
+        "abbr": "PVAM",
+        "espnId": 2504,
+        "win_prob": 0.4982
+      },
+      "team2": {
+        "name": "Lehigh",
+        "seed": 16,
+        "abbr": "LEH",
+        "espnId": 2329,
+        "win_prob": 0.5018
+      },
+      "predicted_spread": 0.1,
+      "predicted_total": 152.1,
+      "model_detail": {
+        "lr_prob": 0.5059,
+        "xgb_prob": 0.49309998750686646,
+        "ensemble_prob": 0.4982
+      }
+    },
+    {
+      "round": "First Four",
+      "region": "West",
+      "team1": {
+        "name": "Texas",
+        "seed": 11,
+        "abbr": "TEX",
+        "espnId": 251,
+        "win_prob": 0.4829
+      },
+      "team2": {
+        "name": "NC State",
+        "seed": 11,
+        "abbr": "NCST",
+        "espnId": 152,
+        "win_prob": 0.5171
+      },
+      "predicted_spread": 0.5,
+      "predicted_total": 167.5,
+      "model_detail": {
+        "lr_prob": 0.4184,
+        "xgb_prob": 0.5260000228881836,
+        "ensemble_prob": 0.4829
+      }
+    },
+    {
+      "round": "First Four",
+      "region": "Midwest",
+      "team1": {
+        "name": "Miami (OH)",
+        "seed": 11,
+        "abbr": "MIOH",
+        "espnId": 193,
+        "win_prob": 0.505
+      },
+      "team2": {
+        "name": "SMU",
+        "seed": 11,
+        "abbr": "SMU",
+        "espnId": 2567,
+        "win_prob": 0.495
+      },
+      "predicted_spread": -0.1,
+      "predicted_total": 174.9,
+      "model_detail": {
+        "lr_prob": 0.4864,
+        "xgb_prob": 0.5174000263214111,
+        "ensemble_prob": 0.505
+      }
+    },
+    {
+      "round": "First Four",
+      "region": "Midwest",
+      "team1": {
+        "name": "UMBC",
+        "seed": 16,
+        "abbr": "UMBC",
+        "espnId": 2378,
+        "win_prob": 0.5489
+      },
+      "team2": {
+        "name": "Howard",
+        "seed": 16,
+        "abbr": "HOW",
+        "espnId": 47,
+        "win_prob": 0.4511
+      },
+      "predicted_spread": -1.5,
+      "predicted_total": 153.7,
+      "model_detail": {
+        "lr_prob": 0.4643,
+        "xgb_prob": 0.6053000092506409,
+        "ensemble_prob": 0.5489
+      }
+    },
+    {
+      "round": "R64",
+      "region": "East",
+      "team1": {
+        "name": "Duke",
+        "seed": 1,
+        "abbr": "DUKE",
+        "espnId": 150,
+        "win_prob": 0.9762
+      },
+      "team2": {
+        "name": "Siena",
+        "seed": 16,
+        "abbr": "SIEN",
+        "espnId": 2561,
+        "win_prob": 0.0238
+      },
+      "predicted_spread": -14.3,
+      "predicted_total": 152.8,
+      "model_detail": {
+        "lr_prob": 0.9585,
+        "xgb_prob": 0.9879999756813049,
+        "ensemble_prob": 0.9762
+      }
+    },
+    {
+      "round": "R64",
+      "region": "East",
+      "team1": {
+        "name": "UConn",
+        "seed": 2,
+        "abbr": "UCONN",
+        "espnId": 41,
+        "win_prob": 0.8793
+      },
+      "team2": {
+        "name": "Furman",
+        "seed": 15,
+        "abbr": "FUR",
+        "espnId": 231,
+        "win_prob": 0.1207
+      },
+      "predicted_spread": -11.4,
+      "predicted_total": 154.0,
+      "model_detail": {
+        "lr_prob": 0.9003,
+        "xgb_prob": 0.8654000163078308,
+        "ensemble_prob": 0.8793
+      }
+    },
+    {
+      "round": "R64",
+      "region": "East",
+      "team1": {
+        "name": "Michigan St.",
+        "seed": 3,
+        "abbr": "MSU",
+        "espnId": 127,
+        "win_prob": 0.846
+      },
+      "team2": {
+        "name": "North Dakota St.",
+        "seed": 14,
+        "abbr": "NDSU",
+        "espnId": 2449,
+        "win_prob": 0.154
+      },
+      "predicted_spread": -10.4,
+      "predicted_total": 159.7,
+      "model_detail": {
+        "lr_prob": 0.826,
+        "xgb_prob": 0.8593999743461609,
+        "ensemble_prob": 0.846
+      }
+    },
+    {
+      "round": "R64",
+      "region": "East",
+      "team1": {
+        "name": "Kansas",
+        "seed": 4,
+        "abbr": "KU",
+        "espnId": 2305,
+        "win_prob": 0.8013
+      },
+      "team2": {
+        "name": "Cal Baptist",
+        "seed": 13,
+        "abbr": "CBU",
+        "espnId": 2856,
+        "win_prob": 0.1987
+      },
+      "predicted_spread": -9.0,
+      "predicted_total": 148.6,
+      "model_detail": {
+        "lr_prob": 0.8185,
+        "xgb_prob": 0.7897999882698059,
+        "ensemble_prob": 0.8013
+      }
+    },
+    {
+      "round": "R64",
+      "region": "East",
+      "team1": {
+        "name": "St. John's",
+        "seed": 5,
+        "abbr": "SJU",
+        "espnId": 2599,
+        "win_prob": 0.7429
+      },
+      "team2": {
+        "name": "Northern Iowa",
+        "seed": 12,
+        "abbr": "UNI",
+        "espnId": 2460,
+        "win_prob": 0.2571
+      },
+      "predicted_spread": -7.3,
+      "predicted_total": 151.4,
+      "model_detail": {
+        "lr_prob": 0.8104,
+        "xgb_prob": 0.6978999972343445,
+        "ensemble_prob": 0.7429
+      }
+    },
+    {
+      "round": "R64",
+      "region": "East",
+      "team1": {
+        "name": "Louisville",
+        "seed": 6,
+        "abbr": "LOU",
+        "espnId": 97,
+        "win_prob": 0.6581
+      },
+      "team2": {
+        "name": "South Florida",
+        "seed": 11,
+        "abbr": "USF",
+        "espnId": 58,
+        "win_prob": 0.3419
+      },
+      "predicted_spread": -4.7,
+      "predicted_total": 173.0,
+      "model_detail": {
+        "lr_prob": 0.6181,
+        "xgb_prob": 0.6848000288009644,
+        "ensemble_prob": 0.6581
+      }
+    },
+    {
+      "round": "R64",
+      "region": "East",
+      "team1": {
+        "name": "UCLA",
+        "seed": 7,
+        "abbr": "UCLA",
+        "espnId": 26,
+        "win_prob": 0.5136
+      },
+      "team2": {
+        "name": "UCF",
+        "seed": 10,
+        "abbr": "UCF",
+        "espnId": 2116,
+        "win_prob": 0.4864
+      },
+      "predicted_spread": -0.4,
+      "predicted_total": 158.7,
+      "model_detail": {
+        "lr_prob": 0.4915,
+        "xgb_prob": 0.5282999873161316,
+        "ensemble_prob": 0.5136
+      }
+    },
+    {
+      "round": "R64",
+      "region": "East",
+      "team1": {
+        "name": "Ohio State",
+        "seed": 8,
+        "abbr": "OSU",
+        "espnId": 194,
+        "win_prob": 0.4992
+      },
+      "team2": {
+        "name": "TCU",
+        "seed": 9,
+        "abbr": "TCU",
+        "espnId": 2628,
+        "win_prob": 0.5008
+      },
+      "predicted_spread": 0.0,
+      "predicted_total": 158.1,
+      "model_detail": {
+        "lr_prob": 0.4909,
+        "xgb_prob": 0.5047000050544739,
+        "ensemble_prob": 0.4992
+      }
+    },
+    {
+      "round": "R64",
+      "region": "South",
+      "team1": {
+        "name": "Florida",
+        "seed": 1,
+        "abbr": "FLA",
+        "espnId": 57,
+        "win_prob": 0.9621
+      },
+      "team2": {
+        "name": "Prairie View A&M",
+        "seed": 16,
+        "abbr": "PVAM",
+        "espnId": 2504,
+        "win_prob": 0.0379
+      },
+      "predicted_spread": -13.9,
+      "predicted_total": 165.6,
+      "model_detail": {
+        "lr_prob": 0.9556,
+        "xgb_prob": 0.9664000272750854,
+        "ensemble_prob": 0.9621
+      }
+    },
+    {
+      "round": "R64",
+      "region": "South",
+      "team1": {
+        "name": "Houston",
+        "seed": 2,
+        "abbr": "HOU",
+        "espnId": 248,
+        "win_prob": 0.8355
+      },
+      "team2": {
+        "name": "Idaho",
+        "seed": 15,
+        "abbr": "IDHO",
+        "espnId": 70,
+        "win_prob": 0.1645
+      },
+      "predicted_spread": -10.1,
+      "predicted_total": 155.9,
+      "model_detail": {
+        "lr_prob": 0.8926,
+        "xgb_prob": 0.7973999977111816,
+        "ensemble_prob": 0.8355
+      }
+    },
+    {
+      "round": "R64",
+      "region": "South",
+      "team1": {
+        "name": "Illinois",
+        "seed": 3,
+        "abbr": "ILL",
+        "espnId": 356,
+        "win_prob": 0.9072
+      },
+      "team2": {
+        "name": "Penn",
+        "seed": 14,
+        "abbr": "PENN",
+        "espnId": 219,
+        "win_prob": 0.0928
+      },
+      "predicted_spread": -12.2,
+      "predicted_total": 160.1,
+      "model_detail": {
+        "lr_prob": 0.9005,
+        "xgb_prob": 0.9117000102996826,
+        "ensemble_prob": 0.9072
+      }
+    },
+    {
+      "round": "R64",
+      "region": "South",
+      "team1": {
+        "name": "Nebraska",
+        "seed": 4,
+        "abbr": "NEB",
+        "espnId": 158,
+        "win_prob": 0.7836
+      },
+      "team2": {
+        "name": "Troy",
+        "seed": 13,
+        "abbr": "TROY",
+        "espnId": 2653,
+        "win_prob": 0.2164
+      },
+      "predicted_spread": -8.5,
+      "predicted_total": 157.5,
+      "model_detail": {
+        "lr_prob": 0.7758,
+        "xgb_prob": 0.7886999845504761,
+        "ensemble_prob": 0.7836
+      }
+    },
+    {
+      "round": "R64",
+      "region": "South",
+      "team1": {
+        "name": "Vanderbilt",
+        "seed": 5,
+        "abbr": "VAN",
+        "espnId": 238,
+        "win_prob": 0.7425
+      },
+      "team2": {
+        "name": "McNeese",
+        "seed": 12,
+        "abbr": "MCN",
+        "espnId": 2377,
+        "win_prob": 0.2575
+      },
+      "predicted_spread": -7.3,
+      "predicted_total": 166.7,
+      "model_detail": {
+        "lr_prob": 0.7904,
+        "xgb_prob": 0.7105000019073486,
+        "ensemble_prob": 0.7425
+      }
+    },
+    {
+      "round": "R64",
+      "region": "South",
+      "team1": {
+        "name": "North Carolina",
+        "seed": 6,
+        "abbr": "UNC",
+        "espnId": 153,
+        "win_prob": 0.7051
+      },
+      "team2": {
+        "name": "VCU",
+        "seed": 11,
+        "abbr": "VCU",
+        "espnId": 2670,
+        "win_prob": 0.2949
+      },
+      "predicted_spread": -6.2,
+      "predicted_total": 161.7,
+      "model_detail": {
+        "lr_prob": 0.6432,
+        "xgb_prob": 0.746399998664856,
+        "ensemble_prob": 0.7051
+      }
+    },
+    {
+      "round": "R64",
+      "region": "South",
+      "team1": {
+        "name": "Saint Mary's",
+        "seed": 7,
+        "abbr": "SMC",
+        "espnId": 2608,
+        "win_prob": 0.4671
+      },
+      "team2": {
+        "name": "Texas A&M",
+        "seed": 10,
+        "abbr": "TAMU",
+        "espnId": 245,
+        "win_prob": 0.5329
+      },
+      "predicted_spread": 1.0,
+      "predicted_total": 165.9,
+      "model_detail": {
+        "lr_prob": 0.4384,
+        "xgb_prob": 0.4860999882221222,
+        "ensemble_prob": 0.4671
+      }
+    },
+    {
+      "round": "R64",
+      "region": "South",
+      "team1": {
+        "name": "Clemson",
+        "seed": 8,
+        "abbr": "CLEM",
+        "espnId": 228,
+        "win_prob": 0.5311
+      },
+      "team2": {
+        "name": "Iowa",
+        "seed": 9,
+        "abbr": "IOWA",
+        "espnId": 2294,
+        "win_prob": 0.4689
+      },
+      "predicted_spread": -0.9,
+      "predicted_total": 149.3,
+      "model_detail": {
+        "lr_prob": 0.4845,
+        "xgb_prob": 0.5622000098228455,
+        "ensemble_prob": 0.5311
+      }
+    },
+    {
+      "round": "R64",
+      "region": "West",
+      "team1": {
+        "name": "Arizona",
+        "seed": 1,
+        "abbr": "ARIZ",
+        "espnId": 12,
+        "win_prob": 0.9726
+      },
+      "team2": {
+        "name": "LIU",
+        "seed": 16,
+        "abbr": "LIU",
+        "espnId": 112358,
+        "win_prob": 0.0274
+      },
+      "predicted_spread": -14.2,
+      "predicted_total": 160.3,
+      "model_detail": {
+        "lr_prob": 0.9577,
+        "xgb_prob": 0.9825999736785889,
+        "ensemble_prob": 0.9726
+      }
+    },
+    {
+      "round": "R64",
+      "region": "West",
+      "team1": {
+        "name": "Purdue",
+        "seed": 2,
+        "abbr": "PUR",
+        "espnId": 2509,
+        "win_prob": 0.8369
+      },
+      "team2": {
+        "name": "Queens",
+        "seed": 15,
+        "abbr": "QU",
+        "espnId": 2511,
+        "win_prob": 0.1631
+      },
+      "predicted_spread": -10.1,
+      "predicted_total": 166.6,
+      "model_detail": {
+        "lr_prob": 0.8848,
+        "xgb_prob": 0.8050000071525574,
+        "ensemble_prob": 0.8369
+      }
+    },
+    {
+      "round": "R64",
+      "region": "West",
+      "team1": {
+        "name": "Gonzaga",
+        "seed": 3,
+        "abbr": "GONZ",
+        "espnId": 2250,
+        "win_prob": 0.8716
+      },
+      "team2": {
+        "name": "Kennesaw St.",
+        "seed": 14,
+        "abbr": "KSU",
+        "espnId": 338,
+        "win_prob": 0.1284
+      },
+      "predicted_spread": -11.1,
+      "predicted_total": 168.5,
+      "model_detail": {
+        "lr_prob": 0.8753,
+        "xgb_prob": 0.8690999746322632,
+        "ensemble_prob": 0.8716
+      }
+    },
+    {
+      "round": "R64",
+      "region": "West",
+      "team1": {
+        "name": "Arkansas",
+        "seed": 4,
+        "abbr": "ARK",
+        "espnId": 8,
+        "win_prob": 0.7252
+      },
+      "team2": {
+        "name": "Hawaii",
+        "seed": 13,
+        "abbr": "HAW",
+        "espnId": 62,
+        "win_prob": 0.2748
+      },
+      "predicted_spread": -6.8,
+      "predicted_total": 169.7,
+      "model_detail": {
+        "lr_prob": 0.8706,
+        "xgb_prob": 0.6283000111579895,
+        "ensemble_prob": 0.7252
+      }
+    },
+    {
+      "round": "R64",
+      "region": "West",
+      "team1": {
+        "name": "Wisconsin",
+        "seed": 5,
+        "abbr": "WIS",
+        "espnId": 275,
+        "win_prob": 0.6737
+      },
+      "team2": {
+        "name": "High Point",
+        "seed": 12,
+        "abbr": "HPU",
+        "espnId": 2272,
+        "win_prob": 0.3263
+      },
+      "predicted_spread": -5.2,
+      "predicted_total": 173.0,
+      "model_detail": {
+        "lr_prob": 0.6898,
+        "xgb_prob": 0.6629999876022339,
+        "ensemble_prob": 0.6737
+      }
+    },
+    {
+      "round": "R64",
+      "region": "West",
+      "team1": {
+        "name": "BYU",
+        "seed": 6,
+        "abbr": "BYU",
+        "espnId": 252,
+        "win_prob": 0.7036
+      },
+      "team2": {
+        "name": "Texas",
+        "seed": 11,
+        "abbr": "TEX",
+        "espnId": 251,
+        "win_prob": 0.2964
+      },
+      "predicted_spread": -6.1,
+      "predicted_total": 167.7,
+      "model_detail": {
+        "lr_prob": 0.7013,
+        "xgb_prob": 0.7050999999046326,
+        "ensemble_prob": 0.7036
+      }
+    },
+    {
+      "round": "R64",
+      "region": "West",
+      "team1": {
+        "name": "Miami (FL)",
+        "seed": 7,
+        "abbr": "MIA",
+        "espnId": 2390,
+        "win_prob": 0.6145
+      },
+      "team2": {
+        "name": "Missouri",
+        "seed": 10,
+        "abbr": "MIZ",
+        "espnId": 142,
+        "win_prob": 0.3855
+      },
+      "predicted_spread": -3.4,
+      "predicted_total": 161.6,
+      "model_detail": {
+        "lr_prob": 0.6224,
+        "xgb_prob": 0.6092000007629395,
+        "ensemble_prob": 0.6145
+      }
+    },
+    {
+      "round": "R64",
+      "region": "West",
+      "team1": {
+        "name": "Villanova",
+        "seed": 8,
+        "abbr": "NOVA",
+        "espnId": 222,
+        "win_prob": 0.4725
+      },
+      "team2": {
+        "name": "Utah St.",
+        "seed": 9,
+        "abbr": "USU",
+        "espnId": 328,
+        "win_prob": 0.5275
+      },
+      "predicted_spread": 0.8,
+      "predicted_total": 159.7,
+      "model_detail": {
+        "lr_prob": 0.4537,
+        "xgb_prob": 0.48500001430511475,
+        "ensemble_prob": 0.4725
+      }
+    },
+    {
+      "round": "R64",
+      "region": "Midwest",
+      "team1": {
+        "name": "Michigan",
+        "seed": 1,
+        "abbr": "MICH",
+        "espnId": 130,
+        "win_prob": 0.9706
+      },
+      "team2": {
+        "name": "UMBC",
+        "seed": 16,
+        "abbr": "UMBC",
+        "espnId": 2378,
+        "win_prob": 0.0294
+      },
+      "predicted_spread": -14.1,
+      "predicted_total": 163.5,
+      "model_detail": {
+        "lr_prob": 0.9592,
+        "xgb_prob": 0.9782000184059143,
+        "ensemble_prob": 0.9706
+      }
+    },
+    {
+      "round": "R64",
+      "region": "Midwest",
+      "team1": {
+        "name": "Iowa State",
+        "seed": 2,
+        "abbr": "ISU",
+        "espnId": 66,
+        "win_prob": 0.8917
+      },
+      "team2": {
+        "name": "Tennessee St.",
+        "seed": 15,
+        "abbr": "TSU",
+        "espnId": 2634,
+        "win_prob": 0.1083
+      },
+      "predicted_spread": -11.8,
+      "predicted_total": 162.3,
+      "model_detail": {
+        "lr_prob": 0.8842,
+        "xgb_prob": 0.8967999815940857,
+        "ensemble_prob": 0.8917
+      }
+    },
+    {
+      "round": "R64",
+      "region": "Midwest",
+      "team1": {
+        "name": "Virginia",
+        "seed": 3,
+        "abbr": "UVA",
+        "espnId": 258,
+        "win_prob": 0.8555
+      },
+      "team2": {
+        "name": "Wright St.",
+        "seed": 14,
+        "abbr": "WSU",
+        "espnId": 2750,
+        "win_prob": 0.1445
+      },
+      "predicted_spread": -10.7,
+      "predicted_total": 161.4,
+      "model_detail": {
+        "lr_prob": 0.8588,
+        "xgb_prob": 0.8533999919891357,
+        "ensemble_prob": 0.8555
+      }
+    },
+    {
+      "round": "R64",
+      "region": "Midwest",
+      "team1": {
+        "name": "Alabama",
+        "seed": 4,
+        "abbr": "BAMA",
+        "espnId": 333,
+        "win_prob": 0.9151
+      },
+      "team2": {
+        "name": "Hofstra",
+        "seed": 13,
+        "abbr": "HOF",
+        "espnId": 2275,
+        "win_prob": 0.0849
+      },
+      "predicted_spread": -12.5,
+      "predicted_total": 167.3,
+      "model_detail": {
+        "lr_prob": 0.8986,
+        "xgb_prob": 0.9259999990463257,
+        "ensemble_prob": 0.9151
+      }
+    },
+    {
+      "round": "R64",
+      "region": "Midwest",
+      "team1": {
+        "name": "Texas Tech",
+        "seed": 5,
+        "abbr": "TTU",
+        "espnId": 2641,
+        "win_prob": 0.6338
+      },
+      "team2": {
+        "name": "Akron",
+        "seed": 12,
+        "abbr": "AKR",
+        "espnId": 2006,
+        "win_prob": 0.3662
+      },
+      "predicted_spread": -4.0,
+      "predicted_total": 168.7,
+      "model_detail": {
+        "lr_prob": 0.6282,
+        "xgb_prob": 0.6376000046730042,
+        "ensemble_prob": 0.6338
+      }
+    },
+    {
+      "round": "R64",
+      "region": "Midwest",
+      "team1": {
+        "name": "Tennessee",
+        "seed": 6,
+        "abbr": "TENN",
+        "espnId": 2633,
+        "win_prob": 0.5624
+      },
+      "team2": {
+        "name": "Miami (OH)",
+        "seed": 11,
+        "abbr": "MIOH",
+        "espnId": 193,
+        "win_prob": 0.4376
+      },
+      "predicted_spread": -1.9,
+      "predicted_total": 170.1,
+      "model_detail": {
+        "lr_prob": 0.5312,
+        "xgb_prob": 0.583299994468689,
+        "ensemble_prob": 0.5624
+      }
+    },
+    {
+      "round": "R64",
+      "region": "Midwest",
+      "team1": {
+        "name": "Kentucky",
+        "seed": 7,
+        "abbr": "UK",
+        "espnId": 96,
+        "win_prob": 0.4702
+      },
+      "team2": {
+        "name": "Santa Clara",
+        "seed": 10,
+        "abbr": "SCU",
+        "espnId": 2541,
+        "win_prob": 0.5298
+      },
+      "predicted_spread": 0.9,
+      "predicted_total": 163.6,
+      "model_detail": {
+        "lr_prob": 0.4924,
+        "xgb_prob": 0.4553999900817871,
+        "ensemble_prob": 0.4702
+      }
+    },
+    {
+      "round": "R64",
+      "region": "Midwest",
+      "team1": {
+        "name": "Georgia",
+        "seed": 8,
+        "abbr": "UGA",
+        "espnId": 61,
+        "win_prob": 0.4904
+      },
+      "team2": {
+        "name": "Saint Louis",
+        "seed": 9,
+        "abbr": "SLU",
+        "espnId": 139,
+        "win_prob": 0.5096
+      },
+      "predicted_spread": 0.3,
+      "predicted_total": 177.1,
+      "model_detail": {
+        "lr_prob": 0.5291,
+        "xgb_prob": 0.46459999680519104,
+        "ensemble_prob": 0.4904
+      }
+    }
+  ]
+}

@@ -1,15 +1,15 @@
 export const PLAYERS = [
-  { id: "colin", name: "Colin", color: "#f97316" },
-  { id: "james", name: "James", color: "#22d3ee" },
-  { id: "luke", name: "Luke", color: "#a3e635" },
-  { id: "donald", name: "Donald", color: "#e879f9" },
+  { id: "colin", name: "Colin", color: "#d44427" },
+  { id: "james", name: "James", color: "#0891b2" },
+  { id: "luke", name: "Luke", color: "#16a34a" },
+  { id: "donald", name: "Donald", color: "#9333ea" },
 ];
 
 export const PLAYER_COLORS = {
-  colin: "#f97316",
-  james: "#22d3ee",
-  luke: "#a3e635",
-  donald: "#e879f9",
+  colin: "#d44427",
+  james: "#0891b2",
+  luke: "#16a34a",
+  donald: "#9333ea",
 };
 
 export const STARTING_BUDGET = 200;
@@ -55,22 +55,22 @@ export const BRACKET_ORDER = [
 ];
 
 export const SEED_COLORS = {
-  1: "#f97316",
-  2: "#fb923c",
-  3: "#f59e0b",
-  4: "#eab308",
-  5: "#d4d424",
-  6: "#a3e635",
-  7: "#4ade80",
-  8: "#34d399",
-  9: "#2dd4bf",
-  10: "#22d3ee",
-  11: "#38bdf8",
-  12: "#60a5fa",
-  13: "#818cf8",
-  14: "#a78bfa",
-  15: "#c084fc",
-  16: "#1a1a2e",
+  1: "#555555",
+  2: "#555555",
+  3: "#555555",
+  4: "#555555",
+  5: "#555555",
+  6: "#555555",
+  7: "#555555",
+  8: "#555555",
+  9: "#555555",
+  10: "#555555",
+  11: "#555555",
+  12: "#555555",
+  13: "#555555",
+  14: "#555555",
+  15: "#555555",
+  16: "#555555",
 };
 
 // Fisher-Yates shuffle

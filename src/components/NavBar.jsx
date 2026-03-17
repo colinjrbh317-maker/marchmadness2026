@@ -6,6 +6,7 @@ const NAV_ITEMS = [
   { id: "auction", label: "AUCTION" },
   { id: "bracket", label: "BRACKET" },
   { id: "scoreboard", label: "SCORES" },
+  { id: "predictions", label: "PICKS" },
 ];
 
 export default function NavBar({
@@ -28,8 +29,8 @@ export default function NavBar({
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur border-b border-border">
-      <div className="max-w-[800px] mx-auto px-4 h-12 flex items-center justify-between">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/95 shadow-sm backdrop-blur border-b border-border">
+      <div className="w-full px-6 h-10 flex items-center justify-between">
         <div className="flex items-center gap-1">
           {NAV_ITEMS.map((item) => {
             const disabled = item.id === "auction" && auctionPhase === "pre";
@@ -41,8 +42,8 @@ export default function NavBar({
                 className={cn(
                   "px-3 py-1.5 font-display text-sm tracking-wider transition-colors cursor-pointer",
                   screen === item.id
-                    ? "text-accent border-b-2 border-accent"
-                    : "text-text-muted hover:text-text",
+                    ? "text-red-700 border-b-2 border-red-700"
+                    : "text-gray-500 hover:text-gray-900",
                   disabled && "opacity-30 cursor-not-allowed"
                 )}
               >
@@ -55,14 +56,14 @@ export default function NavBar({
         <div className="flex items-center gap-2">
           <button
             onClick={onExport}
-            className="px-2 py-1 text-xs font-body text-text-muted hover:text-text transition-colors cursor-pointer"
+            className="px-2 py-1 text-xs font-body text-gray-500 hover:text-gray-900 transition-colors cursor-pointer"
             title="Export backup"
           >
             SAVE
           </button>
           <button
             onClick={() => fileInputRef.current?.click()}
-            className="px-2 py-1 text-xs font-body text-text-muted hover:text-text transition-colors cursor-pointer"
+            className="px-2 py-1 text-xs font-body text-gray-500 hover:text-gray-900 transition-colors cursor-pointer"
             title="Import backup"
           >
             LOAD
@@ -76,7 +77,7 @@ export default function NavBar({
           />
           <button
             onClick={onToggleMute}
-            className="px-2 py-1 text-xs font-body text-text-muted hover:text-text transition-colors cursor-pointer"
+            className="px-2 py-1 text-xs font-body text-gray-500 hover:text-gray-900 transition-colors cursor-pointer"
             title={muted ? "Unmute" : "Mute"}
           >
             {muted ? "UNMUTE" : "MUTE"}
