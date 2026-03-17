@@ -16,6 +16,7 @@ export default function NavBar({
   onToggleMute,
   onExport,
   onImport,
+  onReset,
   auctionPhase,
 }) {
   const fileInputRef = useRef(null);
@@ -75,6 +76,17 @@ export default function NavBar({
             onChange={handleImport}
             className="hidden"
           />
+          <button
+            onClick={() => {
+              if (window.confirm("Reset everything? This clears all auction data.")) {
+                onReset();
+              }
+            }}
+            className="px-2 py-1 text-xs font-body text-red-600 hover:text-red-800 transition-colors cursor-pointer"
+            title="Reset everything"
+          >
+            RESET
+          </button>
           <button
             onClick={onToggleMute}
             className="px-2 py-1 text-xs font-body text-gray-500 hover:text-gray-900 transition-colors cursor-pointer"

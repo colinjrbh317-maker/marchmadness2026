@@ -140,6 +140,7 @@ function App() {
         onToggleMute={() => updateState({ muted: !gameState.muted })}
         onExport={exportState}
         onImport={importState}
+        onReset={resetState}
         auctionPhase={gameState.auctionPhase}
       />
       <main className="flex-1 w-full mx-auto px-8" style={{ maxWidth: "100%", paddingTop: "48px" }}>
