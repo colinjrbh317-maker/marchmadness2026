@@ -22,7 +22,7 @@ export default function AuctionTab({
 }) {
   const [showDrawOrder, setShowDrawOrder] = useState(false);
   const prevSeedRef = useRef(null);
-  const { selectBidder, setBidAmount, confirmSale, undoLastSale, isValidBid, getMaxBid } = auction;
+  const { selectBidder, setBidAmount, confirmSale, undoLastSale, skipSeed, quickSale, isValidBid, getMaxBid } = auction;
 
   // Seed reveal animation trigger
   const currentSeed = gameState.seedOrder[gameState.currentSeedIndex];
@@ -259,6 +259,26 @@ export default function AuctionTab({
           >
             UNDO
           </button>
+          <button
+            onClick={() => {
+              quickSale();
+              sounds.playGavel();
+            }}
+            className="px-4 py-3 rounded font-body text-sm border border-border text-gray-900 hover:border-green-600 hover:text-green-700 transition-all cursor-pointer"
+          >
+            $1 RANDOM
+          </button>
+          {gameState.currentRegionIndex === 0 && (
+            <button
+              onClick={() => {
+                skipSeed();
+                sounds.playWhoosh();
+              }}
+              className="px-4 py-3 rounded font-body text-sm border border-border text-gray-900 hover:border-amber-600 hover:text-amber-700 transition-all cursor-pointer"
+            >
+              SKIP SEED
+            </button>
+          )}
         </div>
 
         {/* Budget bars */}

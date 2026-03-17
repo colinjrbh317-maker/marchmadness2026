@@ -86,6 +86,72 @@ export function useAuction(gameState, updateState) {
     });
   }, [gameState, getCurrentTeam, isValidBid, updateState]);
 
+  const quickSale = useCallback(() => {
+    const team = getCurrentTeam();
+    if (!team) return;
+
+    // Find players who can afford $1
+    const eligible = gameState.players.filter((p) => gameState.budgets[p.id] >= 1);
+    if (eligible.length === 0) return;
+
+    // Pick a random eligible player
+    const player = eligible[Math.floor(Math.random() * eligible.length)];
+    const teamId = team.id;
+
+    const lastSale = {
+      teamId,
+      playerId: player.id,
+      amount: 1,
+      prevSeedIndex: gameState.currentSeedIndex,
+      prevRegionIndex: gameState.currentRegionIndex,
+    };
+
+    let nextSeedIndex = gameState.currentSeedIndex;
+    let nextRegionIndex = gameState.currentRegionIndex;
+    let nextPhase = "bidding";
+
+    if (nextRegionIndex < 3) {
+      nextRegionIndex++;
+    } else if (nextSeedIndex < 15) {
+      nextSeedIndex++;
+      nextRegionIndex = 0;
+    } else {
+      nextPhase = "complete";
+    }
+
+    updateState({
+      ownership: { ...gameState.ownership, [teamId]: player.id },
+      prices: { ...gameState.prices, [teamId]: 1 },
+      budgets: {
+        ...gameState.budgets,
+        [player.id]: gameState.budgets[player.id] - 1,
+      },
+      currentSeedIndex: nextSeedIndex,
+      currentRegionIndex: nextRegionIndex,
+      currentBid: 0,
+      currentBidder: null,
+      auctionPhase: nextPhase,
+      lastSale,
+    });
+  }, [gameState, getCurrentTeam, updateState]);
+
+  const skipSeed = useCallback(() => {
+    // Only allow skip if we haven't sold any teams from this seed yet
+    if (gameState.currentRegionIndex !== 0) return;
+    if (gameState.seedOrder.length === 0) return;
+
+    const newOrder = [...gameState.seedOrder];
+    const [skipped] = newOrder.splice(gameState.currentSeedIndex, 1);
+    newOrder.push(skipped);
+
+    updateState({
+      seedOrder: newOrder,
+      currentRegionIndex: 0,
+      currentBid: 0,
+      currentBidder: null,
+    });
+  }, [gameState.seedOrder, gameState.currentSeedIndex, gameState.currentRegionIndex, updateState]);
+
   const undoLastSale = useCallback(() => {
     const sale = gameState.lastSale;
     if (!sale) return;
@@ -120,5 +186,7 @@ export function useAuction(gameState, updateState) {
     isValidBid,
     confirmSale,
     undoLastSale,
+    skipSeed,
+    quickSale,
   };
 }
