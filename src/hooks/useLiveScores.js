@@ -132,19 +132,25 @@ export function useLiveScores(gameState, updateState) {
       return;
     }
 
-    // Match API results to our teams
+    // Match API results to our teams, skipping already-processed games
+    const processed = new Set(gameState.processedGames || []);
     const matched = [];
     for (const game of games) {
       const winnerTeam = findTeamByApiName(game.winner);
       const loserTeam = findTeamByApiName(game.loser);
 
       if (winnerTeam && loserTeam) {
-        // Only include if both teams are in our bracket AND one owns them
-        if (gameState.ownership[winnerTeam.id] || gameState.ownership[loserTeam.id]) {
+        const gameKey = `${winnerTeam.id}-${loserTeam.id}`;
+        // Only include if both teams are in our bracket, one is owned, AND not already processed
+        if (
+          (gameState.ownership[winnerTeam.id] || gameState.ownership[loserTeam.id]) &&
+          !processed.has(gameKey)
+        ) {
           matched.push({
             winner: winnerTeam,
             loser: loserTeam,
             score: `${game.homeScore}-${game.awayScore}`,
+            gameKey,
           });
         }
       }
@@ -164,15 +170,20 @@ export function useLiveScores(gameState, updateState) {
     if (!syncResults) return;
 
     const newResults = { ...gameState.roundResults };
+    const newProcessed = [...(gameState.processedGames || [])];
     for (const game of syncResults.games) {
       const currentRound = newResults[game.winner.id] || 0;
       // Advance winner by one round
       newResults[game.winner.id] = currentRound + 1;
+      // Record this game as processed so it won't appear again
+      if (game.gameKey) {
+        newProcessed.push(game.gameKey);
+      }
     }
 
-    updateState({ roundResults: newResults });
+    updateState({ roundResults: newResults, processedGames: newProcessed });
     setSyncResults(null);
-  }, [syncResults, gameState.roundResults, updateState]);
+  }, [syncResults, gameState.roundResults, gameState.processedGames, updateState]);
 
   const dismissSync = useCallback(() => {
     setSyncResults(null);
