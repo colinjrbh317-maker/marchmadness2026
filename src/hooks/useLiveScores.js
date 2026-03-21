@@ -1,31 +1,70 @@
 import { useState, useCallback } from "react";
 import { TEAMS } from "../data/teams";
 
-// Fuzzy match: does the API team name contain our short name?
+// Normalize text for comparison: expand abbreviations, strip punctuation
+function normalize(str) {
+  return str
+    .toLowerCase()
+    .replace(/\bst\./g, "state")        // "Michigan St." → "Michigan State"
+    .replace(/['']/g, "")               // "Hawai'i" → "Hawaii"
+    .replace(/[^a-z0-9\s()]/g, "")     // Strip remaining punctuation
+    .trim();
+}
+
+// Check if API name contains our team name as a substring (normalized)
 function fuzzyMatch(apiName, ourName) {
-  const api = apiName.toLowerCase();
-  const our = ourName.toLowerCase();
-  // Direct substring
+  const api = normalize(apiName);
+  const our = normalize(ourName);
   if (api.includes(our)) return true;
-  // Handle common abbreviations
   const words = our.split(/\s+/);
   if (words.length > 1 && words.every((w) => api.includes(w))) return true;
   return false;
 }
 
 function findTeamByApiName(apiName) {
-  // Try exact sportsDbName match first
+  const apiNorm = normalize(apiName);
+
+  // 1. Exact sportsDbName
   let match = TEAMS.find(
-    (t) => t.sportsDbName && t.sportsDbName.toLowerCase() === apiName.toLowerCase()
+    (t) => t.sportsDbName && normalize(t.sportsDbName) === apiNorm
   );
   if (match) return match;
 
-  // Try fuzzy matching on name
-  match = TEAMS.find((t) => fuzzyMatch(apiName, t.name));
+  // 2. Best fuzzy match on name — prefer longest matching name to avoid
+  //    "Tennessee" matching before "Tennessee St." for "Tennessee State Tigers"
+  const candidates = TEAMS.filter(
+    (t) => !t.name.includes("/") && fuzzyMatch(apiName, t.name)
+  );
+  if (candidates.length > 0) {
+    // Pick the candidate whose normalized name is longest (most specific)
+    candidates.sort((a, b) => normalize(b.name).length - normalize(a.name).length);
+    return candidates[0];
+  }
+
+  // 3. First Four individual team names
+  match = TEAMS.find(
+    (t) =>
+      t.firstFourTeams &&
+      t.firstFourTeams.some((ft) => fuzzyMatch(apiName, ft))
+  );
   if (match) return match;
 
-  // Try fuzzy on sportsDbName
+  // 4. sportsDbName fuzzy
   match = TEAMS.find((t) => t.sportsDbName && fuzzyMatch(apiName, t.sportsDbName));
+  if (match) return match;
+
+  // 5. Abbreviation initials match (e.g., "LIU" from "Long Island University Sharks")
+  //    Check if abbr matches the start of the initials (ignoring mascot words)
+  match = TEAMS.find((t) => {
+    const abbr = t.abbr?.toLowerCase();
+    if (!abbr || abbr === "ff" || abbr.length < 2) return false;
+    const words = apiNorm.split(/\s+/);
+    if (words.length >= abbr.length) {
+      const initials = words.map((w) => w[0]).join("");
+      if (initials.startsWith(abbr)) return true;
+    }
+    return false;
+  });
   return match || null;
 }
 
