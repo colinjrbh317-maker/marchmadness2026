@@ -62,11 +62,13 @@ function parseNcaaResponse(data) {
   return games;
 }
 
-// Source 2: ESPN Hidden API
+// Source 2: ESPN Hidden API (fetches entire tournament window: March 18 - April 8)
 async function fetchEspnScores() {
-  const today = new Date().toISOString().split("T")[0].replace(/-/g, "");
+  const year = new Date().getFullYear();
+  const start = `${year}0318`;
+  const end = `${year}0408`;
   const res = await fetch(
-    `https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard?dates=${today}&groups=100`
+    `https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard?dates=${start}-${end}&groups=100`
   );
   if (!res.ok) throw new Error("ESPN API failed");
   const data = await res.json();
@@ -110,15 +112,14 @@ export function useLiveScores(gameState, updateState) {
     let games = null;
     let source = null;
 
-    // Try NCAA API first
+    // Try ESPN first (supports multi-day range), NCAA as fallback (today only)
     try {
-      games = await fetchNcaaScores();
-      source = "NCAA API";
+      games = await fetchEspnScores();
+      source = "ESPN API";
     } catch {
-      // Try ESPN
       try {
-        games = await fetchEspnScores();
-        source = "ESPN API";
+        games = await fetchNcaaScores();
+        source = "NCAA API";
       } catch {
         setSyncError("Both APIs unavailable. Enter results manually in the Tracker.");
         setSyncing(false);
@@ -127,7 +128,7 @@ export function useLiveScores(gameState, updateState) {
     }
 
     if (!games || games.length === 0) {
-      setSyncError("No completed games found today.");
+      setSyncError("No completed tournament games found yet.");
       setSyncing(false);
       return;
     }
